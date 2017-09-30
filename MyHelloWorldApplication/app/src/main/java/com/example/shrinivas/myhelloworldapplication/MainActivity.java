@@ -1,11 +1,14 @@
 package com.example.shrinivas.myhelloworldapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.example.shrinivas.myhelloworldapplication.activities.ListViewActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    //mTextMessage.setText(R.string.title_home);
+                    Intent intent = new Intent(getApplicationContext(), ListViewActivity.class);
+                    startActivity(intent);
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
