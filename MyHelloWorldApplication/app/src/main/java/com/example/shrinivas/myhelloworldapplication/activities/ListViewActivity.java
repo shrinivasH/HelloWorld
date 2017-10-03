@@ -1,5 +1,7 @@
 package com.example.shrinivas.myhelloworldapplication.activities;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,13 +15,16 @@ import com.example.shrinivas.myhelloworldapplication.R;
 import com.example.shrinivas.myhelloworldapplication.adpater.MovieAdapter;
 import com.example.shrinivas.myhelloworldapplication.model.Movie;
 import com.example.shrinivas.myhelloworldapplication.model.MovieResponse;
+import com.example.shrinivas.myhelloworldapplication.presenters.ListViewPresenter;
 import com.example.shrinivas.myhelloworldapplication.rest.ApiClient;
 import com.example.shrinivas.myhelloworldapplication.rest.ApiInterface;
+import com.squareup.otto.Subscribe;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.Callable;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +34,7 @@ public class ListViewActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private ListViewPresenter mListViewPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +44,30 @@ public class ListViewActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ApiInterface apiInterface = ApiClient.getRetrofitClient().create(ApiInterface.class);
-        mProgressBar.setVisibility(View.VISIBLE);
-        Call<MovieResponse> call = apiInterface.getTopRatedMovies("");
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                int statusCode = response.code();
-                Movie[] movieResponses = response.body().getResults();
-                ArrayList<Movie> movieResponses1 = new ArrayList<Movie>();
-                for (Movie movie : movieResponses) {
-                    movieResponses1.add(movie);
-                }
-                movieResponses1.size();
-                MovieAdapter movieAdapter = new MovieAdapter(movieResponses1, getApplicationContext());
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                mRecyclerView.setAdapter(movieAdapter);
-                mProgressBar.setVisibility(View.INVISIBLE);
-            }
 
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.d("Error", t.toString());
-                mProgressBar.setVisibility(View.INVISIBLE);
-            }
-        });
+        mListViewPresenter = new ListViewPresenter(this);
+        mListViewPresenter.getListViewData();
+    }
+    @Subscribe
+    public void getMessage(ArrayList<Movie> movieResponses)
+    {
 
+        MovieAdapter movieAdapter = new MovieAdapter(movieResponses, getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(movieAdapter);
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mListViewPresenter.registerEventBus();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mListViewPresenter.unRegisterBus();
     }
 }
