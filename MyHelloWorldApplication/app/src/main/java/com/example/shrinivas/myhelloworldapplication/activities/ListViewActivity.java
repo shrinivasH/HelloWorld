@@ -44,7 +44,6 @@ public class ListViewActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mListViewPresenter = new ListViewPresenter(this);
         mListViewPresenter.getListViewData();
     }
