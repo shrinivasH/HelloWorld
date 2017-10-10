@@ -30,10 +30,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListViewActivity extends AppCompatActivity {
+public class ListViewActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
-    private ProgressBar mProgressBar;
+
     private ListViewPresenter mListViewPresenter;
 
     @Override
@@ -41,23 +41,26 @@ public class ListViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerList);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        progressBarHandler(this);
+        showProgressBar();
         mListViewPresenter = new ListViewPresenter(this);
         mListViewPresenter.getListViewData();
     }
+
     @Subscribe
-    public void getMessage(ArrayList<Movie> movieResponses)
-    {
+    public void getMessage(ArrayList<Movie> movieResponses) {
 
         MovieAdapter movieAdapter = new MovieAdapter(movieResponses, getApplicationContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(movieAdapter);
-        mProgressBar.setVisibility(View.INVISIBLE);
+        hideProgressBar();
     }
+
     @Override
     protected void onStart() {
         super.onStart();

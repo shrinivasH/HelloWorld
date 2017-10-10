@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends BaseActivity {
     @BindView(R.id.emailId)
     EditText mEmailId;
     @BindView(R.id.password)
@@ -31,14 +31,17 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         ButterKnife.bind(this);
+        progressBarHandler(this);
 
     }
 
     @OnClick(R.id.loginBtn)
     public void loginButtonClick() {
         boolean result = callToValidation();
+        showProgressBar();
         if (result) {
             Toast.makeText(getApplicationContext(), "All Validations are done", Toast.LENGTH_LONG).show();
+            hideProgressBar();
         }
     }
 
