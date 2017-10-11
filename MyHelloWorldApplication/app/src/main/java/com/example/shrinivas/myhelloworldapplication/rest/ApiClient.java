@@ -37,3 +37,12 @@ public class ApiClient {
         return retrofit;
     }
 }
+/*// Retrofit library
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    // to show on log url
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    // otto bus provider
+    compile 'com.squareup:otto:1.3.8'*/
