@@ -1,10 +1,12 @@
 package com.example.shrinivas.myhelloworldapplication.activities;
 
 import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -55,6 +57,12 @@ public class ListViewActivity extends BaseActivity {
 
         MovieAdapter movieAdapter = new MovieAdapter(movieResponses, getApplicationContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                mRecyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        mDividerItemDecoration.setDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.custom_divider));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(movieAdapter);

@@ -36,7 +36,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         // holder.movieTitle.setText(movie.getTitle());
         holder.movieDescription.setText(movie.getTitle());
         holder.data.setText(movie.getRelease_date());
-        holder.rating.setText("(" + movie.getOverview() + ")");
+        holder.rating.setText(movie.isAdult());
 
     }
 
@@ -56,7 +56,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         public MovieHolder(View itemView) {
             super(itemView);
             moviesLayout = (LinearLayout) itemView.findViewById(R.id.movies_layout);
-            // movieTitle = (TextView) itemView.findViewById(R.id.title);
             data = (TextView) itemView.findViewById(R.id.subtitle);
             movieDescription = (TextView) itemView.findViewById(R.id.description);
             rating = (TextView) itemView.findViewById(R.id.rating);

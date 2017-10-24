@@ -140,11 +140,14 @@ public class Movie {
         this.backdrop_path = backdrop_path;
     }
 
-    public boolean isAdult() {
-        return adult;
+    public String isAdult() {
+       // return adult;
+        return adult ? "(A)":"(U)";
+
     }
 
     public void setAdult(boolean adult) {
+
         this.adult = adult;
     }
 
