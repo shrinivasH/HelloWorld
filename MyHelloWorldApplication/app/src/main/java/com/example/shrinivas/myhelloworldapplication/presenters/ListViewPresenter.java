@@ -49,13 +49,8 @@ public class ListViewPresenter {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 int statusCode = response.code();
-                Movie[] movieResponses = response.body().getResults();
-                ArrayList<Movie> movieResponses1 = new ArrayList<Movie>();
-                for (Movie movie : movieResponses) {
-                    movieResponses1.add(movie);
-                }
-                movieResponses1.size();
-                bus.post(movieResponses1);
+                ArrayList<Movie> movieResponses = response.body().getResults();
+                bus.post(movieResponses);
 
             }
 
